@@ -14,10 +14,10 @@ var _ = Describe("Point", func() {
 	})
 
 	It("should create points", func() {
-		Expect(p1.E).To(BeNumerically("~", 19919568.3, 0.1))
-		Expect(p1.N).To(BeNumerically("~", -304192.7, 0.1))
-		Expect(p2.E).To(BeNumerically("~", 19244476.4, 0.1))
-		Expect(p2.N).To(BeNumerically("~", 17189491.4, 0.1))
+		Expect(p1.E).To(BeNumerically("~", 0.9941140, 0.1))
+		Expect(p1.N).To(BeNumerically("~", -0.015181, 0.1))
+		Expect(p2.E).To(BeNumerically("~", 0.9604226, 0.1))
+		Expect(p2.N).To(BeNumerically("~", 0.8578657, 0.1))
 	})
 
 	It("should export grid positions", func() {

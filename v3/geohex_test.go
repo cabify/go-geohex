@@ -83,8 +83,7 @@ var _ = Describe("Zoom", func() {
 	It("should calculate attributes", func() {
 		subject = zooms[7]
 		Expect(subject.level).To(Equal(7))
-		Expect(subject.size).To(BeNumerically("~", 339.337, 0.001))
-		Expect(subject.factor).To(BeNumerically("~", 2036.022, 0.001))
+		Expect(subject.factor).To(BeNumerically("~", 0.0001, 0.00001))
 	})
 })
 

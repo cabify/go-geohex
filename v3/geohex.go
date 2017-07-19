@@ -16,16 +16,14 @@ var (
 )
 
 const (
-	hD2R  = math.Pi / 180.0
-	hR2D  = 180 / math.Pi
-	hBase = 20037508.34
-	pio4  = math.Pi / 4
+	deg2rad = math.Pi / 360.0
+	rad2deg = 360 / math.Pi
+	pio4    = math.Pi / 4
 )
 
 // A zoom is a helper for level dimensions
 type Zoom struct {
 	level  int
-	size   float64
 	factor float64
 }
 
@@ -39,7 +37,7 @@ type LL struct {
 
 // NewLL creates a new normalised LL
 func NewLL(lat, lon float64) *LL {
-	if lon < -180 {
+	if lon <= -180 {
 		lon += 360
 	} else if lon > 180 {
 		lon -= 360
@@ -49,8 +47,8 @@ func NewLL(lat, lon float64) *LL {
 
 // Point generates a grid point from a lat/lon
 func (ll *LL) Point() *Point {
-	e := ll.Lon * hBase / 180.0
-	n := math.Log(math.Tan((90+ll.Lat)*hD2R/2)) / math.Pi * hBase
+	e := ll.Lon / 180.0
+	n := math.Log(math.Tan(ll.Lat*deg2rad+pio4)) / math.Pi
 
 	return &Point{E: e, N: n}
 }
@@ -58,8 +56,8 @@ func (ll *LL) Point() *Point {
 // Init zooms
 func init() {
 	for level := 0; level <= MaxLevel; level++ {
-		size := hBase / math.Pow(3, float64(level+3))
-		zooms[level] = &Zoom{level: level, size: size, factor: 6 * size}
+		size := 1 / math.Pow(3, float64(level+3))
+		zooms[level] = &Zoom{level: level, factor: 6 * size}
 	}
 
 	for i, b := range hChars {

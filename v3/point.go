@@ -30,8 +30,8 @@ func (p *Point) Position(z *Zoom) *Position {
 
 // LL returns LL coordinates of this point
 func (p *Point) LL() *LL {
-	lat := (math.Atan(math.Exp(p.N/hBase*180*hD2R)) - pio4) * 2 * hR2D
-	lon := p.E / hBase * 180
+	lat := (math.Atan(math.Exp(p.N*math.Pi)) - pio4) * rad2deg
+	lon := p.E * 180
 
 	return NewLL(lat, lon)
 }
