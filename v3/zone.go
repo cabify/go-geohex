@@ -2,7 +2,6 @@ package geohex
 
 import (
 	"fmt"
-	"math"
 	"strconv"
 )
 
@@ -17,13 +16,6 @@ type Zone struct {
 	Code string
 	Pos  *Position
 }
-
-var (
-	// Precalculated math stuff
-	pow3f         [MaxLevel + 3]float64
-	pow3i         [MaxLevel + 3]int
-	halfCeilPow3f [MaxLevel + 3]float64
-)
 
 // String returns the zone code
 func (z *Zone) String() string {
@@ -137,12 +129,4 @@ func Decode(code string) (_ *LL, err error) {
 	}
 
 	return pos.LL(), nil
-}
-
-func init() {
-	for i := 0; i < MaxLevel+3; i++ {
-		pow3f[i] = math.Pow(3, float64(i))
-		halfCeilPow3f[i] = pow3f[i] / 2
-		pow3i[i] = int(math.Pow(3, float64(i)))
-	}
 }

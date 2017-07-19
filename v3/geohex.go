@@ -16,9 +16,17 @@ var (
 )
 
 const (
+	// Constant math stuff
 	deg2rad = math.Pi / 360.0
 	rad2deg = 360 / math.Pi
 	pio4    = math.Pi / 4
+)
+
+var (
+	// Precalculated math stuff
+	pow3f         [MaxLevel + 4]float64
+	pow3i         [MaxLevel + 4]int
+	halfCeilPow3f [MaxLevel + 4]float64
 )
 
 // A zoom is a helper for level dimensions
@@ -28,7 +36,7 @@ type Zoom struct {
 }
 
 // Cached zooms lookup
-var zooms = make(map[int]*Zoom, 20)
+var zooms = make(map[int]*Zoom, MaxLevel)
 
 // LL is a lat/lon tuple
 type LL struct {
@@ -53,11 +61,16 @@ func (ll *LL) Point() *Point {
 	return &Point{E: e, N: n}
 }
 
-// Init zooms
+// init precalculates frequently used things
 func init() {
+	for i := 0; i <= MaxLevel+3; i++ {
+		pow3f[i] = math.Pow(3, float64(i))
+		halfCeilPow3f[i] = pow3f[i] / 2
+		pow3i[i] = int(math.Pow(3, float64(i)))
+	}
+
 	for level := 0; level <= MaxLevel; level++ {
-		size := 1 / math.Pow(3, float64(level+3))
-		zooms[level] = &Zoom{level: level, factor: 6 * size}
+		zooms[level] = &Zoom{level: level, factor: 6 / pow3f[level+3]}
 	}
 
 	for i, b := range hChars {
