@@ -11,7 +11,8 @@ type Point struct {
 
 // Position returns the X/Y grid position of the Point
 func (p *Point) Position(z *Zoom) *Position {
-	x, y := (p.E+p.N/hK)/z.w, (p.N-hK*p.E)/z.h
+	x, y := (p.N/hK+p.E)/z.factor, (p.N/hK-p.E)/z.factor
+
 	x0, y0 := math.Floor(x), math.Floor(y)
 	xd, yd := x-x0, y-y0
 
@@ -25,4 +26,12 @@ func (p *Point) Position(z *Zoom) *Position {
 	}
 
 	return &pos
+}
+
+// LL returns LL coordinates of this point
+func (p *Point) LL() *LL {
+	lat := (math.Atan(math.Exp(p.N/hBase*180*hD2R)) - pio4) * 2 * hR2D
+	lon := p.E / hBase * 180
+
+	return NewLL(lat, lon)
 }

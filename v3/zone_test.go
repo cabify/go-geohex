@@ -30,7 +30,7 @@ var _ = Describe("Encode", func() {
 var _ = Describe("Decode", func() {
 
 	for _, tc := range testCases {
-		It("should encode from "+tc.code, func() {
+		It("should decode from "+tc.code, func() {
 			exp := NewLL(tc.lat, tc.lon).Point().Position(zooms[tc.level]).LL()
 			act, err := Decode(tc.code)
 			Expect(err).To(BeNil())
@@ -46,6 +46,7 @@ var testCases = []struct {
 	level int
 	code  string
 }{
+	{15, -179, 0, "QU"},
 	{33.35137950146622, 135.6104480957031, 0, "XM"},
 	{-1.150500622870068, -9.233301904296898, 0, "OY"},
 	{-2.7315738409448347, 178.9405262207031, 0, "GI"},

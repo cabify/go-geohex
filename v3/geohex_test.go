@@ -84,9 +84,7 @@ var _ = Describe("Zoom", func() {
 		subject = zooms[7]
 		Expect(subject.level).To(Equal(7))
 		Expect(subject.size).To(BeNumerically("~", 339.337, 0.001))
-		Expect(subject.scale).To(BeNumerically("~", 0.000053, 0.000001))
-		Expect(subject.w).To(BeNumerically("~", 2036.022, 0.001))
-		Expect(subject.h).To(BeNumerically("~", 1175.498, 0.001))
+		Expect(subject.factor).To(BeNumerically("~", 2036.022, 0.001))
 	})
 })
 
@@ -106,5 +104,4 @@ var _ = Describe("LL", func() {
 		pt := NewLL(66.68, -87.98).Point()
 		Expect(pt).To(BeAssignableToTypeOf(&Point{}))
 	})
-
 })

@@ -31,4 +31,13 @@ var _ = Describe("Point", func() {
 		Expect(pos.Y).To(Equal(2))
 		Expect(pos.z.level).To(Equal(0))
 	})
+
+	It("should return same LL", func() {
+		ll1 := p1.LL()
+		Expect(ll1.Lat).To(BeNumerically("~", -2.731, 0.01))
+		Expect(ll1.Lon).To(BeNumerically("~", 178.940, 0.01))
+		ll2 := p2.LL()
+		Expect(ll2.Lat).To(BeNumerically("~", 82.272, 0.01))
+		Expect(ll2.Lon).To(BeNumerically("~", 172.876, 0.01))
+	})
 })

@@ -13,21 +13,20 @@ var (
 	hChars = []byte{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
 	hIndex = make(map[byte]int, len(hChars))
 	hK     = math.Tan(math.Pi / 6.0)
-	hD2R   = math.Pi / 180.0
 )
 
 const (
+	hD2R  = math.Pi / 180.0
+	hR2D  = 180 / math.Pi
 	hBase = 20037508.34
-	hEr   = 6371007.2
+	pio4  = math.Pi / 4
 )
 
 // A zoom is a helper for level dimensions
 type Zoom struct {
-	level int
-	size  float64
-	scale float64
-	w     float64
-	h     float64
+	level  int
+	size   float64
+	factor float64
 }
 
 // Cached zooms lookup
@@ -60,7 +59,7 @@ func (ll *LL) Point() *Point {
 func init() {
 	for level := 0; level <= MaxLevel; level++ {
 		size := hBase / math.Pow(3, float64(level+3))
-		zooms[level] = &Zoom{level: level, size: size, scale: size / hEr, w: 6 * size, h: 6 * size * hK}
+		zooms[level] = &Zoom{level: level, size: size, factor: 6 * size}
 	}
 
 	for i, b := range hChars {
