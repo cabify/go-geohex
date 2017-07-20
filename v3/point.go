@@ -22,8 +22,10 @@ func (p *Point) Position(z *Zoom) *Position {
 		pos.X, pos.Y = int(x0)+1, int(y0)+1
 	} else if yd < -xd+1 && yd > 2*xd-1 && yd < 0.5*xd+0.5 {
 		pos.X, pos.Y = int(x0), int(y0)
+	} else if xd+yd <= 1 {
+		pos.X, pos.Y = int(x0)+1, int(y0)
 	} else {
-		pos.X, pos.Y = int(math.Floor(x+0.499999)), int(math.Floor(y+0.499999))
+		pos.X, pos.Y = int(x0), int(y0)+1
 	}
 
 	return &pos
