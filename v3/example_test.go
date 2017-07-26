@@ -21,3 +21,11 @@ func ExampleDecode() {
 	// Output:
 	// 35.63992106908978 139.72565157750344
 }
+
+func ExampleNeighbours() {
+	tile, _ := geohex.DecodeTile("OX")
+	fmt.Println(tile.Neighbours())
+
+	// Output:
+	// [Ob Oa OP OM OU OY]
+}

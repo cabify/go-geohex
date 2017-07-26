@@ -1,7 +1,6 @@
 package geohex
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 )
@@ -173,18 +172,22 @@ func DecodeTile(code string) (Tile, error) {
 	return Tile{X: x, Y: y, Level: level}, nil
 }
 
+// Neighbours returns neighbour tiles of this one.
+// It will always return 6 tiles, it works correctly on the tiles close to latitude 180º/-180º,
+// but it won't return correct results close to North and South poles: it isn't expected to work correctly because
+// of the projection used in this library
 func (t Tile) Neighbours() []Tile {
 	return []Tile{
 		NewTile(t.X+1, t.Y+1, t.Level),
-		NewTile(t.X-1, t.Y-1, t.Level),
 		NewTile(t.X+1, t.Y, t.Level),
+		NewTile(t.X, t.Y-1, t.Level),
+		NewTile(t.X-1, t.Y-1, t.Level),
 		NewTile(t.X-1, t.Y, t.Level),
 		NewTile(t.X, t.Y+1, t.Level),
-		NewTile(t.X, t.Y-1, t.Level),
 	}
 }
 
 // String returns a String representation of this tile
 func (t Tile) String() string {
-	return fmt.Sprintf("[%d, %d]@%d", t.X, t.Y, t.Level)
+	return t.Code()
 }
